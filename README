@@ -1,6 +1,7 @@
 This Javascript library emulates the new array methods that are introduced in
 ECMAScript 5. Which are: forEach, reduce, reduceRight, map, filter, every, some,
-indexOf, and lastIndexOf.
+indexOf, and lastIndexOf. To use just include ecma5array.js and you are good
+to go. The code is tiny, only 70 LOC.
 
 See: 
 
