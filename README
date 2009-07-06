@@ -1,0 +1,8 @@
+This Javascript library emulates the new array methods that are introduced in
+ECMAScript 5. Which are: forEach, reduce, reduceRight, map, filter, every, some,
+indexOf, and lastIndexOf.
+
+See: 
+
+- spec: http://www.ecma-international.org/publications/files/drafts/tc39-2009-025.pdf
+- my blog post: http://tobyho.com/The_New_ECMAScript5_Array_Methods_-_NOW
