@@ -2,13 +2,13 @@
 function arrayMethods(methods){
   var arrProto = Array.prototype;
   for (var name in methods)
-    arrProto[name] = arrProto[name] || methods[name];
+    arrProto[name] = methods[name];
 }
 
 arrayMethods({
   forEach: function(iter, context){
     for (var i = 0; i < this.length; i++){
-      iter.apply(context, [this[i], i, this]);
+      iter.call(context, this[i], i, this);
     }
   }
   ,
@@ -31,25 +31,25 @@ arrayMethods({
   ,
   map: function(func, context){
     return this.reduce(function(curr, item, i, arr){
-      return curr.concat([func.apply(context, [item, i, arr])])
+      return curr.concat([func.call(context, item, i, arr)])
     }, []);
   }
   ,
   filter: function(accept, context){
     return this.reduce(function(curr, item, i, arr){
-      return accept.apply(context, [item, i, arr]) ? curr.concat(item) : curr;
+      return accept.call(context, item, i, arr) ? curr.concat(item) : curr;
     }, []);
   }
   ,
   every: function(predicate, context){
     return this.reduce(function(curr, item, i, arr){
-      return predicate.apply(context, [item, i, arr]) && curr;
+      return curr && predicate.call(context, item, i, arr);
     }, true);
   }
   ,
   some: function(predicate, context){
     return this.reduce(function(curr, item, i, arr){
-      return predicate.apply(context, [item, i, arr]) || curr;
+      return curr || predicate.call(context, item, i, arr);
     }, false);
   }
   ,
