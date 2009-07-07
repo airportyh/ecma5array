@@ -1,40 +1,40 @@
-$.describe('Array ecmascript 5')
+describe('Array ecmascript 5')
   .should('have length', function(){
-    $t([1,2,3].length).shouldEqual(3);
+    expect([1,2,3].length).toBe(3);
   })
   .should('indexOf', function(){
-    $t([1,2,3,1].indexOf(1)).shouldEqual(0);
-    $t([1,2,3,1].indexOf(1, 1)).shouldEqual(3);
-    $t([].indexOf(1)).shouldEqual(-1);
+    expect([1,2,3,1].indexOf(1)).toBe(0);
+    expect([1,2,3,1].indexOf(1, 1)).toBe(3);
+    expect([].indexOf(1)).toBe(-1);
   })
   .should('lastIndexOf', function(){
-    $t([1,2,3,1].lastIndexOf(1)).shouldEqual(3);
-    $t([1,2,3,1].lastIndexOf(1, 2)).shouldEqual(0);
-    $t([].indexOf(1)).shouldEqual(-1);
+    expect([1,2,3,1].lastIndexOf(1)).toBe(3);
+    expect([1,2,3,1].lastIndexOf(1, 2)).toBe(0);
+    expect([].indexOf(1)).toBe(-1);
   })
   .should('map', function(){
     var arr = [1,2,3];
     var indices = [];
     var context = {};
-    $t(arr.map(function(n,i,a){
+    expect(arr.map(function(n,i,a){
       indices.push(i);
-      $t(a).shouldEqual(arr);
-      $t(this).shouldBeSameObjectAs(context);
+      expect(a).toEqual(arr);
+      expect(this).toBe(context);
       return n * 2;
-    }, context)).shouldEqual([2,4,6]);
-    $t(indices).shouldEqual([0,1,2]);
+    }, context)).toEqual([2,4,6]);
+    expect(indices).toEqual([0,1,2]);
   })
   .should('filter', function(){
     var arr = [1,2,3];
     var indices = [];
     var context = {};
-    $t(arr.filter(function(n, i, a){
+    expect(arr.filter(function(n, i, a){
       indices.push(i);
-      $t(a).shouldEqual(arr);
-      $t(this).shouldBeSameObjectAs(context);
+      expect(a).toEqual(arr);
+      expect(this).toBe(context);
       return n % 2 == 0;
-    }, context)).shouldEqual([2]);
-    $t(indices).shouldEqual([0,1,2]);
+    }, context)).toEqual([2]);
+    expect(indices).toEqual([0,1,2]);
   })
   .should('forEach', function(){
     var results = [];
@@ -44,78 +44,78 @@ $.describe('Array ecmascript 5')
     arr.forEach(function(item, index, a){
       results.push(item);
       indices.push(index);
-      $t(a).shouldEqual(arr);
-      $t(this).shouldBeSameObjectAs(context);
+      expect(a).toEqual(arr);
+      expect(this).toBe(context);
     }, context);
-    $t(results).shouldEqual([1,2,3]);
-    $t(indices).shouldEqual([0,1,2]);
+    expect(results).toEqual([1,2,3]);
+    expect(indices).toEqual([0,1,2]);
   })
   .should('reduce', function(){
     var elms = [];
     var indices = [];
     var arr = [1,2,3];
-    $t(arr.reduce(function(cur, n, i, a){
+    expect(arr.reduce(function(cur, n, i, a){
       elms.push(n);
       indices.push(i);
-      $t(a).shouldEqual(arr);
+      expect(a).toEqual(arr);
       return cur + n;
-    }, 0)).shouldEqual(6);
-    $t(elms).shouldEqual([1,2,3]);
-    $t(indices).shouldEqual([0,1,2]);
+    }, 0)).toBe(6);
+    expect(elms).toEqual([1,2,3]);
+    expect(indices).toEqual([0,1,2]);
   })
   .should('reduceRight', function(){
     var elms = [];
     var indices = [];
     var arr = [1,2,3];
-    $t(arr.reduceRight(function(cur, n, i, a){
+    expect(arr.reduceRight(function(cur, n, i, a){
       elms.push(n);
       indices.push(i);
-      $t(a).shouldEqual(arr);
+      expect(a).toEqual(arr);
       return cur + n;
-    }, 0)).shouldEqual(6);
-    $t(elms).shouldEqual([3,2,1]);
-    $t(indices).shouldEqual([2,1,0]);    
+    }, 0)).toBe(6);
+    expect(elms).toEqual([3,2,1]);
+    expect(indices).toEqual([2,1,0]);    
   })
   .should('every', function(){
     var indices = [];
     var arr = [1,2,3];
     var context = {};
-    $t(arr.every(function(n, i, a){
-      $t(a).shouldEqual(arr);
+    expect(arr.every(function(n, i, a){
+      expect(a).toEqual(arr);
       indices.push(i);
-      $t(this).shouldBeSameObjectAs(context);
+      expect(this).toBe(context);
       return n > 0;
-      }, context)).shouldBeTrue();
-    $t(indices).shouldEqual([0,1,2]);
-    $t(arr.every(function(n){ return n < 2; })).shouldBeFalse();
+      }, context)).toBe(true);
+    expect(indices).toEqual([0,1,2]);
+    expect(arr.every(function(n){ return n < 2; })).toBe(false);
   })
   .should('some', function(){
     var indices = [];
     var arr = [1,2,3];
     var context = {};
-    $t(arr.some(function(n, i, a){
-      $t(a).shouldEqual(arr);
+    expect(arr.some(function(n, i, a){
+      expect(a).toEqual(arr);
       indices.push(i);
-      $t(this).shouldBeSameObjectAs(context);
+      expect(this).toBe(context);
       return n > 2;
-      }, context)).shouldBeTrue();
-    $t(indices).shouldEqual([0,1,2]);
-    $t(arr.some(function(n){ return n > 3; })).shouldBeFalse();    
+      }, context)).toBe(true);
+    expect(indices).toEqual([0,1,2]);
+    expect(arr.some(function(n){ return n > 3; })).toBe(false);    
   })
  
-$.describe('Array extras')
+describe('Array extras')
   .should('have first', function(){
-    $t([1,2].first()).shouldEqual(1);
-    $t([].first()).shouldEqual(null);
+    expect([1,2].first()).toBe(1);
+    expect([].first()).toBe(undefined);
   })
   .should('have last', function(){
-    $t([1,2].last()).shouldEqual(2);
-    $t([].last()).shouldEqual(null);
+    expect([1,2].last()).toBe(2);
+    expect([].last()).toBe(undefined);
   })
   .should('have find', function(){
-    $t([1,2,3].find(function(n){ return n % 2 == 0; })).shouldEqual(2);
-    $t([1,2,3].find(function(n){ return false; })).shouldEqual(null);
+    expect([1,2,3].find(function(n){ return n % 2 == 0; })).toBe(2);
+    expect([1,2,3].find(function(n){ return false; })).toBe(null);
   })
   .should('have contains', function(){
-    $t([1,2,3].contains(2)).shouldBeTrue();
+    expect([1,2,3].contains(2)).toBe(true);
   })
