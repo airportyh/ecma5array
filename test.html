@@ -2,18 +2,12 @@
   <head>
     <meta http-equiv="Content-type" content="text/html; charset=utf-8">
     <title>collections.js</title>
-    <script type="text/javascript" src="lib/jquery.js"></script>
     <script type="text/javascript" src="lib/describe.js"></script>
     <script type="text/javascript" src="ecma5array.js"></script>
     <script type="text/javascript" src="extras.js"></script>
     <script type="text/javascript" src="spec.js"></script>
-    <script type="text/javascript"><!--
-    /* ===== setup for jquery.bdd =========== */
-    describe.output = function(msg){
-      $('#log').append(msg + '\n');
-    }
-    $(describe.run);
-    --></script>
   </head>
-  <pre id="log"></pre>
+  <body onload="describe.outputOnto('log'); describe.run()">
+    <pre id="log"></pre>
+  </body>
 </html>
