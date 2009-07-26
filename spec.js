@@ -119,3 +119,15 @@ describe('Array extras')
   .should('have contains', function(){
     expect([1,2,3].contains(2)).toBe(true);
   })
+  .should('do max', function(){
+    expect([1,2,3].max()).toBe(3);
+  })
+  .should('do min', function(){
+    expect([1,2,3].min()).toBe(1);
+  })
+  .should('do sum', function(){
+    expect([1,2,3].sum()).toBe(6);
+  })
+  .should('do average', function(){
+    expect([1,2,3].average()).toBe(2);
+  })
