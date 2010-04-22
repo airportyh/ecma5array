@@ -27,8 +27,10 @@ THE SOFTWARE.
 
     function arrayMethods(methods){
       var arrProto = Array.prototype;
-      for (var name in methods)
+      for (var name in methods){
+        var method = methods[name];
         arrProto[name] = /*arrProto[name] ||*/ methods[name];
+      }
     }
 
     arrayMethods({
@@ -79,14 +81,27 @@ THE SOFTWARE.
         }, false);
       }
       ,
-      indexOf: function(target, startFrom){
-        for (var i = startFrom || 0; i < this.length; i++)
+      indexOf: function(target){
+        var fromIndex = arguments[1];
+        fromIndex = typeof(fromIndex) == 'boolean' ? 
+          (fromIndex ? 1 : 0) :
+          parseInt(fromIndex) || 0;
+        if (fromIndex < 0)
+          fromIndex = this.length + fromIndex;
+        for (var i = fromIndex; i < this.length; i++)
           if (this[i] === target) return i;
         return -1;
       }
       ,
-      lastIndexOf: function(target, startFrom){
-        for (var i = startFrom || this.length - 1; i >= 0; i--)
+      lastIndexOf: function(target){
+        var fromIndex = arguments.length > 1 ? arguments[1] : this.length - 1;
+        if (typeof(fromIndex) == 'boolean')
+          fromIndex = fromIndex ? 1 : 0;
+        else
+          fromIndex = parseInt(fromIndex) || 0;
+        if (fromIndex < 0)
+            fromIndex = this.length + fromIndex;
+        for (var i = fromIndex; i >= 0; i--)
           if (this[i] === target) return i;
         return -1;
       }
