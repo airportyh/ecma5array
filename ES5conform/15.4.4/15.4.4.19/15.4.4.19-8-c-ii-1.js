@@ -38,7 +38,7 @@ test: function testcase() {
   }
 
   var srcArr = [0,1,true,null,new Object(),"five"];
-  srcArr[999999] = -6.6;
+  srcArr[15] = -6.6;
   resArr = srcArr.map(callbackfn);
   
   if(bCalled === true && bPar === true)

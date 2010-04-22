@@ -6,7 +6,7 @@
     function arrayMethods(methods){
       var arrProto = Array.prototype;
       for (var name in methods)
-        arrProto[name] = arrProto[name] || methods[name];
+        arrProto[name] = /*arrProto[name] ||*/ methods[name];
     }
 
     arrayMethods({
