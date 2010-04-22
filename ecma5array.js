@@ -6,7 +6,7 @@
     function arrayMethods(methods){
       var arrProto = Array.prototype;
       for (var name in methods)
-        arrProto[name] = /*arrProto[name] ||*/ methods[name];
+        arrProto[name] = arrProto[name] || methods[name];
     }
 
     arrayMethods({
@@ -34,9 +34,9 @@
       }
       ,
       map: function(func, context){
-        /*return this.reduce(function(curr, item, i, arr){
+        return this.reduce(function(curr, item, i, arr){
           return curr.concat([func.call(context, item, i, arr)])
-        }, []);*/
+        }, []);
       }
       ,
       filter: function(accept, context){

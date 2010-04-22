@@ -1,5 +1,5 @@
-var ES5Harness = activeSth;
-var aryTestCasePaths;
+var ES5Harness = activeSth; // variable name used in test files
+var aryTestCasePaths;       // same here
 
 (function(){
 
@@ -12,7 +12,7 @@ var aryTestCasePaths;
     
     var TESTS_PATH = "ES5conform/15.4.4/";
     
-    var testFiles = [
+    aryTestCasePaths = [
           "15.4.4.14/15.4.4.14-0-1.js", // 15.4.4.14
           "15.4.4.14/15.4.4.14-0-2.js",
           "15.4.4.14/15.4.4.14-1-1.js",
@@ -362,11 +362,9 @@ var aryTestCasePaths;
           "15.4.4.22/15.4.4.22-9-c-ii-2.js",
           "15.4.4.22/15.4.4.22-9-c-ii-3.js"];
 
-    aryTestCasePaths = testFiles;
-    
-          
-    for(var i=0, l=testFiles.length ; i<l ; i++){
-        loadScript(TESTS_PATH + testFiles[i]);
+    for(var i=0, l=aryTestCasePaths.length ; i<l ; i++){
+        if(aryTestCasePaths[i] !== null)
+            loadScript(TESTS_PATH + aryTestCasePaths[i]);
     }
     
 })();
