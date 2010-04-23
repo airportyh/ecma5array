@@ -25,6 +25,54 @@ THE SOFTWARE.
     /* An anonymous function called once avoid to create a global arrayMethods function.
      */
 
+    var undefined; // cache the undefined value for quick access and to prevent uncontrolled undefined overrides
+    
+    (function(){
+        // Object.getPrototypeOf implementation by John Resig. (http://ejohn.org/blog/objectgetprototypeof/)
+        if ( typeof Object.getPrototypeOf !== "function" ) {
+          if ( typeof "test".__proto__ === "object" ) {
+            Object.getPrototypeOf = function(object){
+              return object.__proto__;
+            };
+          } else {
+            Object.getPrototypeOf = function(object){
+              // May break if the constructor has been tampered with
+              return object.constructor.prototype;
+            };
+          }
+        }
+    })();
+    
+    function isNotUndefined(v){
+        return v !== undefined;
+    }
+    
+    var isPropertyDefined = typeof Object.getOwnPropertyDescriptor === "function" ?
+                                function isPropertyDefined(O, name){
+                                    if(typeof O !== "object")
+                                        throw new TypeError("First argument of isPropertyDefined is not an object");
+                                    
+                                    var currentObject = O;
+                                    
+                                    while(currentObject !== null){ // The prototype chain ends with a null
+                                        if(Object.getOwnPropertyDescriptor(O, name) !== undefined)
+                                            return isNotUndefined(O[name]); // A property with the right name has been found in the prototype chain
+                                        
+                                        currentObject = Object.getPrototypeOf(currentObject);
+                                    }
+                                    
+                                    return false;
+                                    
+                                }:
+                                function isPropertyDefined(O, name){
+                                    if(typeof O !== "object")
+                                        throw new TypeError("First argument of isPropertyDefined is not an object");
+                                    
+                                    return isNotUndefined(O[name]); // No way to differentiate a property set to undefined or unset
+                                }; 
+    
+    
+    
     function arrayMethods(methods){
       var arrProto = Array.prototype;
       for (var name in methods){
@@ -34,17 +82,56 @@ THE SOFTWARE.
     }
 
     arrayMethods({
-      forEach: function(iter, context){
-        for (var i = 0; i < this.length; i++){
-          iter.call(context, this[i], i, this);
+      forEach: function forEach(iter){
+        var i,l;
+        var context = arguments[1];
+
+        if(typeof iter !== "function"){ // ES5 : "If IsCallable(callbackfn) is false, throw a TypeError exception."
+            throw new TypeError("Array.prototype.forEach method. First argument is not callable.");
+        }
+        
+        for (i = 0, l = this.length ; i < l; i++){
+            if(isPropertyDefined(this, i.toString()))
+                iter.call(context, this[i], i, this);
         }
       }
       ,
-      reduce: function(accumlator, initVal){
-        var curr = initVal;
-        this.forEach(function(item, i, arr){
-          curr = accumlator(curr, item, i, arr);
-        });
+      reduce: function reduce(accumlator){
+        var curr;
+        var arrayFirstDefinedIndex;
+        var targetArray;
+        
+        var i;
+        var l = this.length;
+        
+        if(typeof accumlator !== "function"){ // ES5 : "If IsCallable(callbackfn) is false, throw a TypeError exception."
+            throw new TypeError("Array.prototype.reduce method. First argument is not callable");
+        }
+
+        if((l == 0 || l === null) && (arguments.length <= 1)){ // == on purpose to test 0, false and null
+            throw new TypeError("Array.prototype.reduce method. length is 0 and no second argument");
+        }
+        
+        if(arguments.length <= 1){
+        
+            for(i=0 ; i<l && !isPropertyDefined(this, i.toString()) ; i++){
+            }
+            
+            if(i===l){ // empty array
+                throw new TypeError("Array.prototype.reduce method. Empty array and no second argument");
+            }
+            
+            curr = this[i++];
+        }
+        else{
+            curr = arguments[1];
+        }
+        
+        for(i = i || 0 ; i < l ; i++){
+            if(isPropertyDefined(this, i.toString()))
+                curr = accumlator.call(undefined, curr, this[i], i, this);
+        }
+        
         return curr;
       }
       ,
@@ -108,3 +195,4 @@ THE SOFTWARE.
     });
     
 })();
+
