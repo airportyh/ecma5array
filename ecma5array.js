@@ -56,7 +56,7 @@ THE SOFTWARE.
                                     
                                     while(currentObject !== null){ // The prototype chain ends with a null
                                         if(Object.getOwnPropertyDescriptor(O, name) !== undefined)
-                                            return isNotUndefined(O[name]); // A property with the right name has been found in the prototype chain
+                                            return true; // A property with the right name has been found in the prototype chain
                                         
                                         currentObject = Object.getPrototypeOf(currentObject);
                                     }
@@ -108,7 +108,7 @@ THE SOFTWARE.
             throw new TypeError("Array.prototype.reduce method. First argument is not callable");
         }
 
-        if((l == 0 || l === null) && (arguments.length <= 1)){ // == on purpose to test 0, false and null
+        if((l == 0 || l === null) && (arguments.length <= 1)){ // == on purpose to test 0 and false.
             throw new TypeError("Array.prototype.reduce method. length is 0 and no second argument");
         }
         
