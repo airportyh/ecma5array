@@ -35,9 +35,9 @@ test: function testcase() {
   function cb(val)
   {
     if(val > 2)
-      return false;
-    else
       return true;
+    else
+      return false;
   }
   var i = f.some(cb);
   

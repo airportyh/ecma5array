@@ -34,10 +34,7 @@ test: function testcase() {
   
   function cb(val)
   {
-    if(val>1)
-      return false;
-    else
-      return true;    
+    return val <= 2;   
   }
   var i = f.every(cb);
   

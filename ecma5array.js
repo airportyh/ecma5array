@@ -147,13 +147,19 @@ THE SOFTWARE.
         }, []); */
       }
       ,
-      every: function(predicate, context){
+      every: function(predicate){
+        var context = arguments[1];
+        if (typeof predicate != 'function')
+          throw new TypeError();
         return this.reduce(function(curr, item, i, arr){
           return curr && predicate.call(context, item, i, arr);
         }, true);
       }
       ,
-      some: function(predicate, context){
+      some: function(predicate){
+        var context = arguments[1];
+        if (typeof predicate != 'function')
+          throw new TypeError();
         return this.reduce(function(curr, item, i, arr){
           return curr || predicate.call(context, item, i, arr);
         }, false);

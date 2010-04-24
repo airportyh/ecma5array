@@ -30,14 +30,14 @@ test: function testcase() {
  
   function callbackfn(val, Idx, obj)
   {
-    arr[2] = 3;
+    arr.push(3)
     if(val !== 3)
        return true;
     else 
        return false;
   }
 
-  var arr = [1,2,,4,5];
+  var arr = [1,2,4,5];
   
   if(arr.every(callbackfn) === true)    
       return true;  
