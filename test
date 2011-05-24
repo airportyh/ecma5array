@@ -1,0 +1,54 @@
+#! /usr/bin/env node
+
+var Tutti = require('tutti').Tutti,
+    fs = require('fs')
+
+function indent(str){
+    return String(str).split('\n').map(function(line){
+        return '  ' + line
+    }).join('\n')
+}
+
+function display(msg){
+    try{
+        if (msg.console){
+            console.log(msg.browser + ': ')
+            console.log(indent(msg.console))
+        }
+    }catch(e){
+        console.log(JSON.stringify(msg))
+    }
+}
+
+var files = [
+    'jasmine.js',
+    'consoleJasmineReporter.js',
+    'ecma5array.js',
+    'spec.js'
+]
+
+var tutti = Tutti('http://localhost:8080/')
+    .on('message', display)
+    
+function run(){
+    tutti
+        .reset()
+        .load(files)
+        .eval(function(){
+            var env = jasmine.getEnv()
+            env.addReporter(new ConsoleJasmineReporter)
+            env.execute()
+        })
+}
+    
+    
+files.forEach(function(file){
+    fs.watchFile(file, function(prev, curr){
+        if (prev.mtime.getTime() !== curr.mtime.getTime()){
+            console.log('=================  ' + file + ' modified. Re-run tests.')
+            run()
+        }
+    })
+})
+
+run()
